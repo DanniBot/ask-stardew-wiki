@@ -15,6 +15,7 @@ export const WikiSearch = () => {
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [hasSearched, setHasSearched] = useState(false);
   const { toast } = useToast();
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -31,6 +32,7 @@ export const WikiSearch = () => {
 
     setIsSearching(true);
     setResults([]);
+    setHasSearched(true);
 
     try {
       const response = await fetch(
@@ -117,7 +119,7 @@ export const WikiSearch = () => {
         </div>
       )}
 
-      {!isSearching && results.length === 0 && query && (
+      {hasSearched && !isSearching && results.length === 0 && (
         <Card className="p-8 text-center border-4 border-wood-light bg-card/90">
           <p className="text-muted-foreground">
             No results found. Try a different search term!
