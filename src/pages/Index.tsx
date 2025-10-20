@@ -31,28 +31,6 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-12">
         <WikiSearch />
-        
-        {/* Helper Tips */}
-        <div className="mt-12 max-w-3xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-4">
-            {[
-              { icon: "🌱", title: "Crops", desc: "Find growing tips" },
-              { icon: "🎣", title: "Fishing", desc: "Catch info & locations" },
-              { icon: "💝", title: "Characters", desc: "Gift preferences" },
-            ].map((tip, i) => (
-              <div
-                key={i}
-                className="text-center p-6 bg-card border-4 border-wood-light rounded-lg hover:shadow-lg transition-all hover:scale-105"
-              >
-                <div className="text-4xl mb-3">{tip.icon}</div>
-                <h3 className="font-pixel text-xs text-primary mb-2">
-                  {tip.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">{tip.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </main>
 
       {/* Footer */}

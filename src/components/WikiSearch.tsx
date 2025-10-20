@@ -33,28 +33,32 @@ export const WikiSearch = () => {
     setResults([]);
 
     try {
-      // Using web search to query Stardew Valley wiki
-      const searchQuery = `site:stardewvalleywiki.com ${query}`;
+      const response = await fetch(
+        `https://stardewvalleywiki.com/mediawiki/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=10`
+      );
       
-      // Simulated search results - in production, this would call a backend API
-      // that uses the web search functionality
-      const response = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(searchQuery)}&format=json`);
+      const data = await response.json();
       
-      // For demo purposes, creating mock results
-      const mockResults: SearchResult[] = [
-        {
-          title: `${query} - Stardew Valley Wiki`,
-          snippet: `Information about ${query} in Stardew Valley. This is a demo result showing how your search would appear.`,
-          url: `https://stardewvalleywiki.com/${query.toLowerCase().replace(/\s+/g, '_')}`,
-        },
-      ];
-
-      setResults(mockResults);
-      
-      toast({
-        title: "Search Complete!",
-        description: `Found results for "${query}"`,
-      });
+      if (data.query && data.query.search) {
+        const searchResults: SearchResult[] = data.query.search.map((item: any) => ({
+          title: item.title,
+          snippet: item.snippet.replace(/<[^>]*>/g, ''), // Remove HTML tags
+          url: `https://stardewvalleywiki.com/${item.title.replace(/ /g, '_')}`
+        }));
+        
+        setResults(searchResults);
+        
+        toast({
+          title: "Search Complete!",
+          description: `Found ${searchResults.length} results for "${query}"`,
+        });
+      } else {
+        setResults([]);
+        toast({
+          title: "No results",
+          description: "Try a different search term!",
+        });
+      }
     } catch (error) {
       toast({
         title: "Search Failed",
@@ -70,22 +74,20 @@ export const WikiSearch = () => {
     <div className="w-full max-w-3xl mx-auto space-y-6">
       <form onSubmit={handleSearch} className="relative">
         <div className="flex gap-2">
-          <div className="relative flex-1">
-            <Input
-              type="text"
-              placeholder="Search the wiki... (e.g., 'Blueberry', 'Fishing', 'Community Center')"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="pr-10 h-12 text-base border-4 border-primary bg-card shadow-lg"
-            />
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          </div>
+          <Input
+            type="text"
+            placeholder="Search the wiki... (e.g., 'Blueberry', 'Fishing', 'Community Center')"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="h-12 text-base border-4 border-primary bg-card shadow-lg"
+          />
           <Button
             type="submit"
             disabled={isSearching}
-            className="h-12 px-6 font-pixel text-xs border-4 border-primary/50 shadow-lg hover:scale-105 transition-transform"
+            size="icon"
+            className="h-12 w-12 border-4 border-primary/50 shadow-lg hover:scale-105 transition-transform"
           >
-            {isSearching ? "..." : "Search"}
+            {isSearching ? "..." : <Search className="h-5 w-5" />}
           </Button>
         </div>
       </form>
@@ -93,23 +95,25 @@ export const WikiSearch = () => {
       {results.length > 0 && (
         <div className="space-y-4 animate-in fade-in-50 duration-500">
           <h2 className="font-pixel text-sm text-primary">Search Results:</h2>
-          {results.map((result, index) => (
-            <Card
-              key={index}
-              className="p-6 border-4 border-wood-light bg-card/90 backdrop-blur-sm hover:shadow-xl transition-all hover:scale-[1.02] cursor-pointer"
-              onClick={() => window.open(result.url, '_blank')}
-            >
-              <h3 className="font-pixel text-xs text-primary mb-3 leading-relaxed">
-                {result.title}
-              </h3>
-              <p className="text-sm text-foreground/80 mb-3 leading-relaxed">
-                {result.snippet}
-              </p>
-              <p className="text-xs text-secondary font-semibold">
-                Click to view on wiki →
-              </p>
-            </Card>
-          ))}
+          <div className="flex flex-col gap-4">
+            {results.map((result, index) => (
+              <Card
+                key={index}
+                className="p-6 border-4 border-wood-light bg-card/90 backdrop-blur-sm hover:shadow-xl transition-all hover:scale-[1.02] cursor-pointer"
+                onClick={() => window.open(result.url, '_blank')}
+              >
+                <h3 className="font-pixel text-xs text-primary mb-3 leading-relaxed">
+                  {result.title}
+                </h3>
+                <p className="text-sm text-foreground/80 mb-3 leading-relaxed">
+                  {result.snippet}
+                </p>
+                <p className="text-xs text-secondary font-semibold">
+                  Click to view on wiki →
+                </p>
+              </Card>
+            ))}
+          </div>
         </div>
       )}
 
