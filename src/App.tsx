@@ -15,7 +15,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.PROD ? '/ask-stardew-wiki' : '/'}>
         <div className="min-h-screen bg-background">
           <Routes>
             <Route path="/" element={<Index />} />
