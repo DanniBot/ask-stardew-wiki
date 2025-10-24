@@ -28,9 +28,11 @@ In short, Ask Stardew Wiki finds the needle in the haystack smartly, then hand y
 
 ### Current Version: v1.0.0
 - ✅ Semantic search engine integration
+- ✅ Direct links to wiki sections
 - ✅ Responsive design with Stardew Valley theming
 - ✅ About page with documentation
-- ✅ query-retrieval feedback gathering
+- ✅ query-retrieval feedback gathering system
+
 
 ### Planned Updates
 - 🔄 **v1.1.0**: Implement cron job to regularly fetch the wiki updates and keep the vector database updated

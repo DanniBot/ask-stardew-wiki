@@ -48,26 +48,21 @@ Ask Stardew Wiki uses **Retrieval-Augmented Generation (RAG)** technology withou
 - **Search Engine**: Vector-based semantic search
 - **Backend**: Cloudflare Workers with vector database and KV integration
 
-P.S. UI and styling by 
 
-## 📋 Current Features (v1.0.0)
+## 📋 Current Version (v1.0.0)
 
 - ✅ Semantic search engine integration
+- ✅ Direct links to wiki sections
 - ✅ Responsive design with Stardew Valley theming
 - ✅ About page with comprehensive documentation
 - ✅ Query-retrieval feedback gathering system
-- ✅ Pixel-style toast notifications
-- ✅ Direct links to wiki sections
 
 ## 🔮 Roadmap
 
-### v1.1.0 (Planned)
-- 🔄 Automated wiki content updates via cron jobs
-- 🔄 Enhanced vector database synchronization
+- 🔄**1.1.0**: Automated wiki content updates via cron jobs
 
-### v2.0.0 (Planned)
-- 🔄 Multi-language support for international wiki versions
-- 🔄 Advanced filtering options
+### 
+- 🔄**v2.0.0**: Multi-language support for international wiki versions
 
 ## 🎮 Why This Exists
 

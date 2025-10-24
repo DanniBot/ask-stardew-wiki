@@ -92,9 +92,11 @@ const About = () => {
           <h3 className="font-pixel text-xl text-accent mb-4">Current Version: v1.0.0</h3>
           <ul className="mb-6 space-y-2">
             <li>✅ Semantic search engine integration</li>
+            <li>✅ Direct links to wiki sections</li>
             <li>✅ Responsive design with Stardew Valley theming</li>
             <li>✅ About page with documentation</li>
-            <li>✅ query-retrieval feedback gathering</li>
+            <li>✅ query-retrieval feedback gathering system</li>
+
           </ul>
 
           <h3 className="font-pixel text-xl text-accent mb-4">Planned Updates</h3>
