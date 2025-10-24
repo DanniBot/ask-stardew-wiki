@@ -1,73 +1,94 @@
-# Welcome to your Lovable project
+# 🌾 Ask Stardew Wiki
 
-## Project info
+> **Finally, stop searching, start asking the wiki your questions!**
 
-**URL**: https://lovable.dev/projects/138c4a8e-080b-4413-a130-c7a7d2de6aa2
+Ask Stardew Wiki is a [RAG](https://developers.cloudflare.com/ai-search/concepts/what-is-rag/)-based search engine designed specifically for the Stardew Valley Wiki. It goes beyond simple keyword matching to understand the meaning and context of your questions, helping you find the most relevant wiki sections quickly and precisely.
 
-## How can I edit this code?
+## 🎯 What Makes This Different?
 
-There are several ways of editing your application.
+#### Searches are not the same. To be clear:
 
-**Use Lovable**
+| Traditional Wiki Search | Ask Stardew Wiki ✅ | AI Chatbot |
+|------------------------|---------------------|------------|
+| Simple keyword matching in page titles and content | Finds deeply relevant wiki sections by semantic comparison | Writes new, original text |
+| Provides links to pages | Provides sources & links to wiki sections | May hallucinate or provide incorrect facts |
+| Best for finding specific pages by name (e.g., "Starfruit") | Best for asking questions and finding sources (e.g., "How do I get iridium ore?") | Best for summaries and calculations |
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/138c4a8e-080b-4413-a130-c7a7d2de6aa2) and start prompting.
+### Key Features
 
-Changes made via Lovable will be committed automatically to this repo.
+- **🧠 Semantic Understanding**: Understands the meaning behind your questions, not just keywords
+- **🎮 Gameplay Focused**: Only searches gameplay-related content (no admin/community pages)
+- **📖 Source-Verified**: All results come directly from the wiki - no AI-generated content
+- **🎨 Stardew Valley Themed**: Beautiful pixel-art inspired interface that matches the game's aesthetic
+- **📱 Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
+- **👍 Feedback System**: Help us improve by rating search results
 
-**Use your preferred IDE**
+## 🚀 How It Works
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Ask Stardew Wiki uses **Retrieval-Augmented Generation (RAG)** technology without generative AI:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Your Question**: Ask anything about Stardew Valley gameplay
+2. **Semantic Search**: The engine finds the most conceptually relevant wiki sections
+3. **Source Results**: You get exact quotes from the wiki with direct links to sections
+4. **No Hallucinations**: Everything comes from the official wiki - guaranteed accuracy
 
-Follow these steps:
+### Example Queries
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- "Where can I find Louis's shorts?"
+- "What does Sebastian like as gifts?"
+- "How do I get iridium ore?"
+- "What's the best crop for summer?"
+- "How do I unlock the greenhouse?"
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🛠️ Technology Stack
 
-# Step 3: Install the necessary dependencies.
-npm i
+- **Frontend**: React + TypeScript + Vite by [@Lovable](https://lovable.dev/)
+- **UI Framework**: Tailwind CSS + shadcn/ui components by [@Lovable](https://lovable.dev/)
+- **Styling**: Custom Stardew Valley themed design system by [@Lovable](https://lovable.dev/)
+- **Search Engine**: Vector-based semantic search
+- **Backend**: Cloudflare Workers with vector database and KV integration
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+P.S. UI and styling by 
 
-**Edit a file directly in GitHub**
+## 📋 Current Features (v1.0.0)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- ✅ Semantic search engine integration
+- ✅ Responsive design with Stardew Valley theming
+- ✅ About page with comprehensive documentation
+- ✅ Query-retrieval feedback gathering system
+- ✅ Pixel-style toast notifications
+- ✅ Direct links to wiki sections
 
-**Use GitHub Codespaces**
+## 🔮 Roadmap
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### v1.1.0 (Planned)
+- 🔄 Automated wiki content updates via cron jobs
+- 🔄 Enhanced vector database synchronization
 
-## What technologies are used for this project?
+### v2.0.0 (Planned)
+- 🔄 Multi-language support for international wiki versions
+- 🔄 Advanced filtering options
 
-This project is built with:
+## 🎮 Why This Exists
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Stardew Valley is a complex game with hundreds of items, characters, recipes, and mechanics. The official wiki is comprehensive but can be overwhelming to navigate. Traditional search often requires you to know exactly what you're looking for.
 
-## How can I deploy this project?
+Ask Stardew Wiki bridges this gap by understanding what you're trying to accomplish, not just what you're searching for. Whether you're a new player wondering how to get started or a veteran looking for specific optimization strategies, this tool helps you find the information you need faster.
 
-Simply open [Lovable](https://lovable.dev/projects/138c4a8e-080b-4413-a130-c7a7d2de6aa2) and click on Share -> Publish.
+## 🚫 What This Is NOT
 
-## Can I connect a custom domain to my Lovable project?
+- **Not an AI Chatbot**: It doesn't generate new content or provide opinions
+- **Not a Wiki Replacement**: It's a search tool that helps you navigate the existing wiki
+- **Not Comprehensive**: Only covers gameplay content (excludes admin/community pages)
+- **Not Real-time**: Content is periodically updated from the wiki
 
-Yes, you can!
+## 🎯 Perfect For
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- **New Players**: Get answers to common questions without navigating complex wiki pages
+- **Experienced Players**: Quickly find specific information for optimization and planning
+- **Content Creators**: Efficiently research game mechanics for guides and videos
+- **Community Helpers**: Provide accurate, source-backed answers to community questions
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+
+*Ask Stardew Wiki - Making the Stardew Valley Wiki more accessible, one question at a time.* 🌾

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, ThumbsUp, ThumbsDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -16,7 +16,52 @@ export const WikiSearch = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [feedback, setFeedback] = useState<'positive' | 'negative' | null>(null);
+  const [requestId, setRequestId] = useState<string | null>(null);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
   const { toast } = useToast();
+
+  const handleFeedback = async (type: 'positive' | 'negative') => {
+    if (!requestId) {
+      toast({
+        title: "Error",
+        description: "No search request found to provide feedback for.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmittingFeedback(true);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_FEEDBACK_API_BASE_URL}/feedback`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          request_id: requestId,
+          vote_type: type === 'positive' ? 'upvote' : 'downvote'
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setFeedback(type);
+      } else {
+        throw new Error(data.message || 'Failed to submit feedback');
+      }
+    } catch (error) {
+      toast({
+        title: "Feedback Failed",
+        description: "Couldn't submit your feedback. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
+  };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,20 +78,50 @@ export const WikiSearch = () => {
     setIsSearching(true);
     setResults([]);
     setHasSearched(true);
+    setFeedback(null);
+    setRequestId(null);
 
     try {
-      const response = await fetch(
-        `https://stardewvalleywiki.com/mediawiki/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=10`
-      );
+      const response = await fetch(`${import.meta.env.VITE_QUERY_API_BASE_URL}/query`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query_text: query,
+          collection_name: "stardew_wiki_en_cf-baai-bge-base-en-v1-5",
+          n_results: 5
+        })
+      });
       
       const data = await response.json();
       
-      if (data.query && data.query.search) {
-        const searchResults: SearchResult[] = data.query.search.map((item: any) => ({
-          title: item.title,
-          snippet: item.snippet.replace(/<[^>]*>/g, ''), // Remove HTML tags
-          url: `https://stardewvalleywiki.com/${item.title.replace(/ /g, '_')}`
-        }));
+      // Store the request_id for feedback
+      if (data.request_id) {
+        setRequestId(data.request_id);
+      }
+      
+      if (data.results && data.results.snippets && data.results.metadatas) {
+        const snippets = data.results.snippets[0] || [];
+        const metadatas = data.results.metadatas[0] || [];
+        
+        const searchResults: SearchResult[] = snippets.map((snippet: string, index: number) => {
+          const metadata = metadatas[index];
+          if (!metadata) return null;
+          
+          // Format section title for URL (replace 's with %27s_)
+          // Don't append "Introduction" to the URL
+          const sectionTitle = metadata.section_title.replace(/'s/g, '%27s_');
+          const url = metadata.section_title === 'Introduction' 
+            ? metadata.page_url 
+            : `${metadata.page_url}#${sectionTitle}`;
+          
+          return {
+            title: metadata.section_title,
+            snippet: snippet,
+            url: url
+          };
+        }).filter(Boolean);
         
         setResults(searchResults);
         
@@ -78,7 +153,7 @@ export const WikiSearch = () => {
         <div className="flex gap-2">
           <Input
             type="text"
-            placeholder="Search the wiki... (e.g., 'Blueberry', 'Fishing', 'Community Center')"
+            placeholder="Ask the wiki... (e.g., 'Where can I find Louis's shorts?')"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="h-12 text-base border-4 border-primary bg-card shadow-lg"
@@ -104,17 +179,55 @@ export const WikiSearch = () => {
                 className="p-6 border-4 border-wood-light bg-card/90 backdrop-blur-sm hover:shadow-xl transition-all hover:scale-[1.02] cursor-pointer"
                 onClick={() => window.open(result.url, '_blank')}
               >
-                <h3 className="font-pixel text-xs text-primary mb-3 leading-relaxed">
-                  {result.title}
+                <h3 className="font-pixel text-xs text-primary mb-3 leading-relaxed flex items-center">
+                  <span>{result.title}</span>
+                  <a 
+                    href={result.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="ml-2 text-primary hover:text-primary/80"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                      <path d="M15 3h6v6"></path>
+                      <path d="M10 14 21 3"></path>
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    </svg>
+                  </a>
                 </h3>
                 <p className="text-sm text-foreground/80 mb-3 leading-relaxed">
                   {result.snippet}
                 </p>
-                <p className="text-xs text-secondary font-semibold">
-                  Click to view on wiki →
+                <p className="text-xs text-muted-foreground">
+                  {result.url}
                 </p>
               </Card>
             ))}
+          </div>
+          
+          {/* Feedback Section */}
+          <div className="flex justify-center gap-4 mt-6">
+            <p className="text-sm text-muted-foreground flex items-center">Was this helpful?</p>
+            <div className="flex gap-2">
+              <Button
+                variant={feedback === 'positive' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => handleFeedback('positive')}
+                disabled={isSubmittingFeedback || feedback !== null}
+                className={`h-8 w-8 p-0 ${feedback === 'positive' ? 'bg-green-500 hover:bg-green-600' : ''}`}
+              >
+                <ThumbsUp className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={feedback === 'negative' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => handleFeedback('negative')}
+                disabled={isSubmittingFeedback || feedback !== null}
+                className={`h-8 w-8 p-0 ${feedback === 'negative' ? 'bg-red-500 hover:bg-red-600' : ''}`}
+              >
+                <ThumbsDown className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       )}
