@@ -24,8 +24,6 @@ const Index = () => {
             </h1>
             <p className="text-base md:text-lg text-foreground/90 max-w-2xl mx-auto font-body leading-relaxed">
       Finally, stop searching, start asking the wiki your questions! This tool understands your meaning -- going beyond keywords to find the most relevant wiki sections.
-              <br />
-              📌 This is not a generative AI. All answers are from the wiki.
               <br /> 
               📌 Only gameplay related questions are supported. Wiki administration and community pages are not included in this search.
               <br /> 
