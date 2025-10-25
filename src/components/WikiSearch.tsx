@@ -177,7 +177,7 @@ export const WikiSearch = () => {
       {!hasSearched && (
         <div className="space-y-3 animate-in fade-in-50 duration-500">
           <p className="text-xs text-muted-foreground text-center font-pixel">Try these examples:</p>
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-wrap gap-1 sm:gap-2 justify-center">
             {[
               "How to maximize friendship with villagers?",
               "What's the best crop for spring?",
@@ -191,7 +191,7 @@ export const WikiSearch = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => handleExampleClick(example)}
-                className="text-[10px] border-2 border-primary/30 bg-card/50 hover:bg-primary/10 hover:border-primary/50 transition-all font-pixel"
+                className="text-[9px] sm:text-[10px] border-2 border-primary/30 bg-card/50 hover:bg-primary/10 hover:border-primary/50 transition-all font-pixel px-2 py-1 sm:px-3 sm:py-2 whitespace-nowrap"
               >
                 {example}
               </Button>
