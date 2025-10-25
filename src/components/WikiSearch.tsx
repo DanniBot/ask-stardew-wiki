@@ -63,6 +63,10 @@ export const WikiSearch = () => {
     }
   };
 
+  const handleExampleClick = (exampleQuery: string) => {
+    setQuery(exampleQuery);
+  };
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -90,7 +94,7 @@ export const WikiSearch = () => {
         body: JSON.stringify({
           query_text: query,
           collection_name: "stardew_wiki_en_cf-baai-bge-base-en-v1-5",
-          n_results: 5
+          n_results: 8
         })
       });
       
@@ -117,7 +121,7 @@ export const WikiSearch = () => {
             : `${metadata.page_url}#${sectionTitle}`;
           
           return {
-            title: metadata.section_title,
+            title: `${metadata.page_title} | ${metadata.section_title}`,
             snippet: snippet,
             url: url
           };
@@ -153,7 +157,7 @@ export const WikiSearch = () => {
         <div className="flex gap-2">
           <Input
             type="text"
-            placeholder="Ask the wiki... (e.g., 'Where can I find Louis's shorts?')"
+            placeholder="Ask the wiki..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="h-12 text-base border-4 border-primary bg-card shadow-lg"
@@ -168,6 +172,33 @@ export const WikiSearch = () => {
           </Button>
         </div>
       </form>
+
+      {/* Search Examples */}
+      {!hasSearched && (
+        <div className="space-y-3 animate-in fade-in-50 duration-500">
+          <p className="text-xs text-muted-foreground text-center font-pixel">Try these examples:</p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            {[
+              "How to maximize friendship with villagers?",
+              "What's the best crop for spring?",
+              "What's the best way to make money?",
+              "How to complete the Community Center bundles?",
+              "How do I catch legendary fish?",
+              "Where can I find Lewis's purple shorts?"
+            ].map((example, index) => (
+              <Button
+                key={index}
+                variant="outline"
+                size="sm"
+                onClick={() => handleExampleClick(example)}
+                className="text-[10px] border-2 border-primary/30 bg-card/50 hover:bg-primary/10 hover:border-primary/50 transition-all font-pixel"
+              >
+                {example}
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {results.length > 0 && (
         <div className="space-y-4 animate-in fade-in-50 duration-500">

@@ -27,7 +27,7 @@ const Index = () => {
               <br /> 
               📌 Only gameplay related questions are supported. Wiki administration and community pages are not included in this search.
               <br /> 
-              [ <Link to="/about">Learn more</Link> ]
+              [ <Link to="/about">Learn more</Link> ] 
             </p>
           </div>
         </div>
