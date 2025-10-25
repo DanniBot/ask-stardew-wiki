@@ -51,7 +51,7 @@ const About = () => {
           <h2 className="font-pixel text-2xl text-primary mb-6">🤔 Is This an AI?</h2>
           
           <p className="mb-6">
-            <strong>No. This is a Search Engine based on Retrieval-Augmented Generation (RAG), without generative LLM integration.</strong> To be clear:
+            <strong>No. This is a Search Engine based on Retrieval-Augmented Generation (RAG), without generative LLM integration</strong> <a href="https://github.com/DanniBot/RAG-from-scratch-for-stardew-valley-wiki" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline">checkout how I build it from scratch</a>. To be clear:
           </p>
 
           <div className="overflow-x-auto mb-8">

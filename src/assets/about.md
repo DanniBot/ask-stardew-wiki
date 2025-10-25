@@ -12,7 +12,7 @@ Think of it like a super-powered Ctrl+F that searches the most of wiki for you! 
 
 ## 🤔 Is This an AI?
 
-**No. This is a Search Engine based on Retrieval-Augmented Generation (RAG), without a generative LLM integration**. To be clear:
+**No. This is a Search Engine based on Retrieval-Augmented Generation (RAG), without a generative LLM integration** [[checkout how I build it from scratch](https://github.com/DanniBot/RAG-from-scratch-for-stardew-valley-wiki)]. To be clear:
 
 | Wiki's search  | This Tool ✅ | An AI Chatbot |
 | -------- | ------- | ------- |

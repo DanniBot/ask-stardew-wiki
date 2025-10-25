@@ -45,7 +45,7 @@ Ask Stardew Wiki uses **Retrieval-Augmented Generation (RAG)** technology withou
 - **Frontend**: React + TypeScript + Vite by [@Lovable](https://lovable.dev/)
 - **UI Framework**: Tailwind CSS + shadcn/ui components by [@Lovable](https://lovable.dev/)
 - **Styling**: Custom Stardew Valley themed design system by [@Lovable](https://lovable.dev/)
-- **Search Engine**: Vector-based semantic search
+- **Search Engine**: Vector-based semantic search. [Check out how I build the RAG pipeline from scratch if you're interested](https://github.com/DanniBot/RAG-from-scratch-for-stardew-valley-wiki)
 - **Backend**: Cloudflare Workers with vector database and KV integration
 
 
