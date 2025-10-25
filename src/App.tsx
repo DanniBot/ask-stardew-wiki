@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
+import GitHubCorner from "./components/GitHubCorner";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter basename={import.meta.env.PROD ? '/ask-stardew-wiki' : '/'}>
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background relative">
+          <GitHubCorner />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
