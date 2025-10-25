@@ -67,6 +67,14 @@ export const WikiSearch = () => {
     setQuery(exampleQuery);
   };
 
+  const handleBackToSearch = () => {
+    setQuery("");
+    setResults([]);
+    setHasSearched(false);
+    setFeedback(null);
+    setRequestId(null);
+  };
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -113,17 +121,10 @@ export const WikiSearch = () => {
           const metadata = metadatas[index];
           if (!metadata) return null;
           
-          // Format section title for URL (replace 's with %27s_)
-          // Don't append "Introduction" to the URL
-          const sectionTitle = metadata.section_title.replace(/'s/g, '%27s_');
-          const url = metadata.section_title === 'Introduction' 
-            ? metadata.page_url 
-            : `${metadata.page_url}#${sectionTitle}`;
-          
           return {
             title: `${metadata.page_title} | ${metadata.section_title}`,
             snippet: snippet,
-            url: url
+            url:  `${metadata.page_url}#${metadata.section_anchor}`
           };
         }).filter(Boolean);
         
@@ -260,15 +261,34 @@ export const WikiSearch = () => {
               </Button>
             </div>
           </div>
+          
+          {/* Back Link */}
+          <div className="text-center mt-4">
+            <button
+              onClick={handleBackToSearch}
+              className="text-sm text-muted-foreground hover:text-primary transition-colors font-body"
+            >
+              [ Back ]
+            </button>
+          </div>
         </div>
       )}
 
       {hasSearched && !isSearching && results.length === 0 && (
-        <Card className="p-8 text-center border-4 border-wood-light bg-card/90">
-          <p className="text-muted-foreground">
-            No results found. Try a different search term!
-          </p>
-        </Card>
+        <div className="space-y-4 animate-in fade-in-50 duration-500">
+          <h2 className="font-pixel text-sm text-primary text-center">No Results Found</h2>
+          <Card className="p-8 text-center border-4 border-wood-light bg-card/90">
+            <p className="text-muted-foreground mb-4">
+              No results found. Try a different search term!
+            </p>
+            <button
+              onClick={handleBackToSearch}
+              className="text-sm text-muted-foreground hover:text-primary transition-colors font-body"
+            >
+              [ Back ]
+            </button>
+          </Card>
+        </div>
       )}
     </div>
   );
